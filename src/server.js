@@ -1,13 +1,13 @@
 import express from 'express';
-// import configViewEngine from './config/viewEngine';
-// import initWebRoute from './route/web';
-// import connectDB from './config/connectDB.JS';
+import configViewEngine from './config/viewEngine';
+import initApiRoute from './routes/api';
+import connectDB from './config/connectDB.JS';
 import bodyParser from 'body-parser';
 
-// import cors from 'cors';
+import cors from 'cors';
 const app = express();
 require('dotenv').config();
-// app.use(cors());
+app.use(cors());
 app.use(function (req, res, next) {
   // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -32,12 +32,12 @@ app.use(function (req, res, next) {
   next();
 });
 const port = process.env.PORT || 8080;
-// connectDB();
+connectDB();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// initWebRoute(app);
-// configViewEngine(app);
+initApiRoute(app);
+configViewEngine(app);
 app.listen(port, () => {
   console.log(`Server app listening on port ${port}`);
 });
