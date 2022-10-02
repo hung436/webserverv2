@@ -12,7 +12,9 @@ let validateRegisterUser = () => {
     check("password", "password more than 6 degits").isLength({ min: 6 }),
   ];
 };
-
+let GetAllProducts = () => {
+  return [check("currentPage").not().isEmpty()];
+};
 let validateLogin = () => {
   return [
     check("email", "Invalid does not Empty").not().isEmpty(),
@@ -23,6 +25,7 @@ let validateLogin = () => {
 
 let validate = {
   validateRegisterUser: validateRegisterUser,
+  GetAllProducts,
   validateLogin: validateLogin,
 };
 

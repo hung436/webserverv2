@@ -1,16 +1,9 @@
-
 const jwt = require("jsonwebtoken");
 
 let generateToken = (user, secretSignature, tokenLife) => {
   return new Promise((resolve, reject) => {
-    const userData = {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-    };
-    // Thực hiện ký và tạo token
     jwt.sign(
-      { data: userData },
+      { data: user },
       secretSignature,
       {
         algorithm: "HS256",

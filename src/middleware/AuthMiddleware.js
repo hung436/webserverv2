@@ -1,22 +1,18 @@
 const jwtHelper = require("../helpers/jwt.helper");
-require("dotenv")
+require("dotenv");
 const accessTokenSecret =
   process.env.ACCESS_TOKEN_SECRET || "access-token-secret-example";
 let isAuth = async (req, res, next) => {
   // Lấy token được gửi lên từ phía client, thông thường tốt nhất là các bạn nên truyền token vào header
   const tokenFromClient = req.headers.authorization;
-
   if (tokenFromClient) {
     // Nếu tồn tại token
-
     const token = tokenFromClient && tokenFromClient.split(" ")[1];
-
     try {
       const decoded = await jwtHelper.verifyToken(token, accessTokenSecret);
-
       // Nếu token hợp lệ, lưu thông tin giải mã được vào đối tượng req, dùng cho các xử lý ở phía sau.
       req.jwtDecoded = decoded.data._id;
-
+      console.log(req.jwtDecoded);
       // Cho phép req đi tiếp sang controller.
       next();
     } catch (error) {
@@ -34,7 +30,8 @@ let isAuth = async (req, res, next) => {
 };
 let isAdmin = async (req, res, next) => {
   isAuth(req, res, () => {
-    if (req.uer.id == req.parmas.id || req.user.admin) {
+    console.log(req);
+    if (req.jwtDecoded.RoleId === 2) {
       next();
     } else {
       res.status(403).json("no admin");

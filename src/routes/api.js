@@ -2,6 +2,8 @@ import express from "express";
 import AuthController from "../controllers/AuthController";
 import ProductController from "../controllers/ProductController";
 import { validate } from "../validation/AuthValidator.odb";
+import { isAuth, isAdmin } from "./../middleware/AuthMiddleware";
+
 const multer = require("multer");
 const upload = multer();
 let router = express.Router();
@@ -15,10 +17,15 @@ const initApiRoute = (app) => {
   );
   router.post("/auth/facebook", AuthController.LoginFacebook);
   //Products routes
-  router.get("/products/getallproduct", ProductController.GetAllProducts);
+  router.get(
+    "/admin/products/get-all-product",
+    isAdmin,
+    validate.GetAllProducts(),
+    ProductController.GetAllProducts
+  );
   // router.get("/products/:id", AuthController.GetProductById);
   router.post(
-    "/products/createproduct",
+    "/admin/products/createproduct",
     upload.single("ProductImage"),
     ProductController.CreateProduct
   );

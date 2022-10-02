@@ -1,7 +1,13 @@
 import productService from "../services/productService";
-
+const { validationResult } = require("express-validator");
 const GetAllProducts = async (req, res) => {
-  let data = await productService.getAllProducts(req.body);
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { currentPage, pageSize } = req.body;
+  let data = await productService.getAllProducts(currentPage, pageSize);
   return res.status(200).json(data);
 };
 const CreateProduct = async (req, res) => {

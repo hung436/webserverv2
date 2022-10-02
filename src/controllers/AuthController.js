@@ -3,14 +3,14 @@ import authService from "../services/authService";
 var passport = require("passport");
 var FacebookStrategy = require("passport-facebook");
 //Login
-const Login = (req, res) => {
-  console.log(req);
+const Login = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-
-  return res.status(200).json({ code: 0, message: "ok" });
+  const { email, password } = req.body;
+  let data = await authService.Login(email, password);
+  return res.status(200).json(data);
 };
 
 //Register
