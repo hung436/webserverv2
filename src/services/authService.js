@@ -95,8 +95,9 @@ const Register = (user) => {
         await db.Customer.create({
           email: user.email,
           password: hashPassword,
-          firstName: user.firstName,
-          lastName: user.lastName,
+          phone: user.phone,
+          RoleId: 1,
+          Name: user.Name,
         });
         resolve({ code: 0, message: "success" });
       }
@@ -178,4 +179,52 @@ const LoginFacebook = (data) => {
     }
   });
 };
-module.exports = { Register, Login, LoginFacebook };
+const RefreshToken = (refreshToken) => {
+  return new Promise(async (resolve, reject) => {
+    console.log(refreshToken);
+    // Nếu như tồn tại refreshToken truyền lên và nó cũng nằm trong tokenList của chúng ta
+    if (refreshToken) {
+      try {
+        // Verify kiểm tra tính hợp lệ của cái refreshToken và lấy dữ liệu giải mã decoded
+        const decoded = await jwtHelper.verifyToken(
+          refreshToken,
+          refreshTokenSecret
+        );
+        // Thông tin user lúc này các bạn có thể lấy thông qua biến decoded.data
+        // có thể mở comment dòng debug bên dưới để xem là rõ nhé.
+        // debug("decoded: ", decoded);
+        const userFakeData = decoded.data;
+
+        const accessToken = await jwtHelper.generateToken(
+          userFakeData,
+          accessTokenSecret,
+          accessTokenLife
+        );
+        const refreshToken = await jwtHelper.generateToken(
+          userFakeData,
+          accessTokenSecret,
+          refreshTokenLife
+        );
+
+        // gửi token mới về cho người dùng
+        resolve({
+          errorCode: 0,
+          message: "Success",
+          data: { accessToken, refreshToken },
+        });
+      } catch (error) {
+        resolve({
+          errorCode: 1,
+          message: "Invalid refresh token.",
+        });
+      }
+    } else {
+      resolve({
+        errorCode: 1,
+        message: "No token provided.",
+      });
+    }
+  });
+};
+
+module.exports = { Register, Login, LoginFacebook, RefreshToken };

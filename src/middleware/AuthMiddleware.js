@@ -11,7 +11,7 @@ let isAuth = async (req, res, next) => {
     try {
       const decoded = await jwtHelper.verifyToken(token, accessTokenSecret);
       // Nếu token hợp lệ, lưu thông tin giải mã được vào đối tượng req, dùng cho các xử lý ở phía sau.
-      req.jwtDecoded = decoded.data._id;
+      req.jwtDecoded = decoded.data;
       console.log(req.jwtDecoded);
       // Cho phép req đi tiếp sang controller.
       next();
@@ -30,11 +30,10 @@ let isAuth = async (req, res, next) => {
 };
 let isAdmin = async (req, res, next) => {
   isAuth(req, res, () => {
-    console.log(req);
     if (req.jwtDecoded.RoleId === 2) {
       next();
     } else {
-      res.status(403).json("no admin");
+      res.status(401).json("Unauthorized");
     }
   });
 };

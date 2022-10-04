@@ -15,6 +15,7 @@ const initApiRoute = (app) => {
     validate.validateRegisterUser(),
     AuthController.Register
   );
+  router.post("/auth/refreshtoken", AuthController.RefreshToken);
   router.post("/auth/facebook", AuthController.LoginFacebook);
   //Products routes
   router.get(

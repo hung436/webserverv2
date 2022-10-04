@@ -23,10 +23,15 @@ const Register = async (req, res) => {
 
   return res.status(200).json(data);
 };
-
+//LoginFacebook
 const LoginFacebook = async (req, res) => {
   let data = await authService.LoginFacebook(req.body);
 
   return res.status(200).json(data);
 };
-module.exports = { Login, Register, LoginFacebook };
+//Refresh Token
+const RefreshToken = async (req, res) => {
+  let data = await authService.RefreshToken(req.body.refreshToken);
+  return res.status(200).json(data);
+};
+module.exports = { Login, Register, LoginFacebook, RefreshToken };
