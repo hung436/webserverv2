@@ -8,7 +8,7 @@ module.exports = {
         {
           ProductName: "Pizza Hải sản",
           MetaTitle: "",
-          Description: "Thành phần Jam bông, dứa, sốt cà chua, pho mai",
+          Description: "Thành phần Jam bông, dứa, sốt cà chua, phô mai",
           ProductImage: "/public/klsahkjds.png",
           price: 2000000,
           PromotionPrice: 1000000,

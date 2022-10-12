@@ -1,36 +1,40 @@
-import express from 'express';
-import configViewEngine from './config/viewEngine';
-import initApiRoute from './routes/api';
-import connectDB from './config/connectDB.JS';
-import bodyParser from 'body-parser';
+import express from "express";
+import configViewEngine from "./config/viewEngine";
+import initApiRoute from "./routes/api";
+import connectDB from "./config/connectDB.JS";
+import bodyParser from "body-parser";
 
-import cors from 'cors';
+import cors from "cors";
 const app = express();
-require('dotenv').config();
+require("dotenv").config();
 app.use(cors());
 app.use(function (req, res, next) {
   // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
   // Request methods you wish to allow
   res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, OPTIONS, PUT, PATCH, DELETE'
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
   );
 
   // Request headers you wish to allow
   res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
   );
 
   // Set to true if you need the website to include cookies in the requests sent
   // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader("Access-Control-Allow-Credentials", true);
 
   // Pass to next layer of middleware
   next();
 });
+// app.use((err, req, res, next) => {
+//   res.status(500);
+//   res.render("error", { error: err });
+// });
 const port = process.env.PORT || 8080;
 connectDB();
 app.use(bodyParser.json());
