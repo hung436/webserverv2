@@ -1,7 +1,7 @@
 import express from "express";
 import configViewEngine from "./config/viewEngine";
 import initApiRoute from "./routes/api";
-import connectDB from "./config/connectDB.JS";
+// import connectDB from "./config/connectDB.JS";
 import bodyParser from "body-parser";
 
 import cors from "cors";
@@ -36,7 +36,7 @@ app.use(function (req, res, next) {
 //   res.render("error", { error: err });
 // });
 const port = process.env.PORT || 8080;
-connectDB();
+// connectDB();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
