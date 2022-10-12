@@ -1,6 +1,7 @@
 import express from "express";
 import AuthController from "../controllers/AuthController";
 import ProductController from "../controllers/ProductController";
+import CategoryController from "../controllers/CategoryController";
 import { validate } from "../validation/AuthValidator.odb";
 import { isAuth, isAdmin } from "./../middleware/AuthMiddleware";
 
@@ -17,6 +18,13 @@ const initApiRoute = (app) => {
   );
   router.post("/auth/refreshtoken", AuthController.RefreshToken);
   router.post("/auth/facebook", AuthController.LoginFacebook);
+
+  ///===================================Category routes=================================================
+  router.get("/category/get", CategoryController.GetCategory);
+  router.post("/category/create", CategoryController.CreateCategory);
+  // router.put("/category/update", CategoryController.UpdateCategory);
+  // router.delete("/category/delete", CategoryController.DeleteCategory);
+
   //Products routes
   router.get(
     "/admin/products/get-all-product",
